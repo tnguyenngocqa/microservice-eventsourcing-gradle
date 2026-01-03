@@ -1,7 +1,11 @@
 package com.ltfullstack.bookservice.command.aggregate;
 
 import com.ltfullstack.bookservice.command.command.CreateBookCommand;
+import com.ltfullstack.bookservice.command.command.DeleteBookCommand;
+import com.ltfullstack.bookservice.command.command.UpdateBookCommand;
 import com.ltfullstack.bookservice.command.event.BookCreatedEvent;
+import com.ltfullstack.bookservice.command.event.BookDeletedEvent;
+import com.ltfullstack.bookservice.command.event.BookUpdatedEvent;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.axonframework.commandhandling.CommandHandler;
@@ -29,11 +33,46 @@ public class BookAggregate {
         AggregateLifecycle.apply(event);
     }
 
+    @CommandHandler
+    public void handle(UpdateBookCommand command) {
+        BookUpdatedEvent event = new BookUpdatedEvent();
+        BeanUtils.copyProperties(command, event);
+
+        AggregateLifecycle.apply(event);
+    }
+
+    @CommandHandler
+    public void handle(DeleteBookCommand command) {
+        BookDeletedEvent event = new BookDeletedEvent();
+        BeanUtils.copyProperties(command, event);
+
+        AggregateLifecycle.apply(event);
+    }
+
+    /**************************
+     * EventSourcingHandler
+     * BookCreatedEvent
+     * BookUpdatedEvent
+     * BookDeletedEvent
+     **************************/
     @EventSourcingHandler
     public void on(BookCreatedEvent event) {
         this.id = event.getId();
         this.name = event.getName();
         this.author = event.getAuthor();
         this.isReady = event.getIsReady();
+    }
+
+    @EventSourcingHandler
+    public void on(BookUpdatedEvent event) {
+        this.id = event.getId();
+        this.name = event.getName();
+        this.author = event.getAuthor();
+        this.isReady = event.getIsReady();
+    }
+
+    @EventSourcingHandler
+    public void on(BookDeletedEvent event) {
+        this.id = event.getId();
     }
 }

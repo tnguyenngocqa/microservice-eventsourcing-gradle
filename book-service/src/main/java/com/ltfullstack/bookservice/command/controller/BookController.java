@@ -1,13 +1,12 @@
 package com.ltfullstack.bookservice.command.controller;
 
 import com.ltfullstack.bookservice.command.command.CreateBookCommand;
+import com.ltfullstack.bookservice.command.command.DeleteBookCommand;
+import com.ltfullstack.bookservice.command.command.UpdateBookCommand;
 import com.ltfullstack.bookservice.command.model.BookRequestModel;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -25,6 +24,27 @@ public class BookController {
                 .name(model.getName())
                 .author(model.getAuthor())
                 .isReady(true)
+                .build();
+
+        return commandGateway.sendAndWait(command);
+    }
+
+    @PutMapping("/{bookId}")
+    public String editBook(@RequestBody BookRequestModel model, @PathVariable String bookId) {
+        UpdateBookCommand command = UpdateBookCommand.builder()
+                .id(bookId)
+                .name(model.getName())
+                .author(model.getAuthor())
+                .isReady(model.getIsReady())
+                .build();
+
+        return commandGateway.sendAndWait(command);
+    }
+
+    @DeleteMapping("/{bookId}")
+    public String deleteBook(@PathVariable String bookId) {
+        DeleteBookCommand command = DeleteBookCommand.builder()
+                .id(bookId)
                 .build();
 
         return commandGateway.sendAndWait(command);
