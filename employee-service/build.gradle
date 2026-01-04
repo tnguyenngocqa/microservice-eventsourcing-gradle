@@ -29,6 +29,16 @@ ext {
 }
 
 dependencies {
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // common service
+    // implementation files('libs/common-service-0.0.1-SNAPSHOT.jar')
+    implementation 'com.ltfullstack:common-service:0.0.1-SNAPSHOT'
+
+    // https://mvnrepository.com/artifact/org.axonframework/axon-spring-boot-starter
+    implementation("org.axonframework:axon-spring-boot-starter:4.9.3")
+
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
