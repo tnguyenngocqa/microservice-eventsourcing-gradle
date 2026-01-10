@@ -3,4 +3,7 @@ server:
 
 spring:
   application:
-    name: notification-service
+    name: notificationservice
+  kafka:
+    consumer:
+      group-id: ltfullstack

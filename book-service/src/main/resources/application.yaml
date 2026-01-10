@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: book-service
+    name: bookservice
   # H2 Console Configuration (optional, but helpful for debugging)
   h2:
     console:

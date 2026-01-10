@@ -1,12 +1,12 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.5.9'
+	id 'org.springframework.boot' version '3.3.1'
 	id 'io.spring.dependency-management' version '1.1.7'
 }
 
 group = 'com.ltfullstack'
 version = '0.0.1-SNAPSHOT'
-description = 'notification-service'
+description = 'notificationservice'
 
 java {
 	toolchain {
@@ -22,12 +22,12 @@ configurations {
 
 repositories {
 	mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
     // common service
-    // implementation files('libs/common-service-0.0.1-SNAPSHOT.jar')
-    implementation 'com.ltfullstack:common-service:0.0.1-SNAPSHOT'
+    implementation 'com.ltfullstack:commonservice:0.0.1-SNAPSHOT'
 
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
