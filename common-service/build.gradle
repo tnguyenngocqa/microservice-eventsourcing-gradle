@@ -1,12 +1,21 @@
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
+
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.5.9'
+	id 'org.springframework.boot' version '3.3.1'
 	id 'io.spring.dependency-management' version '1.1.7'
+
+    id 'java-library' // Required for 'api' configuration
+
+    id 'maven-publish'
 }
+
+bootJar { enabled = false }
+jar { enabled = true }
 
 group = 'com.ltfullstack'
 version = '0.0.1-SNAPSHOT'
-description = 'common-service'
+description = 'commonservice'
 
 java {
 	toolchain {
@@ -22,9 +31,13 @@ configurations {
 
 repositories {
 	mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
+    // kafka
+    api 'org.springframework.kafka:spring-kafka'
+
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-aop
     implementation("org.springframework.boot:spring-boot-starter-aop")
 
@@ -33,6 +46,32 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+dependencyManagement {
+    imports {
+        mavenBom(SpringBootPlugin.BOM_COORDINATES)
+    }
+}
+publishing {
+    publications {
+        myPublication(MavenPublication) {
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
+//            groupId = 'com.ltfullstack'
+//            artifactId = 'common-service'
+//            version = '0.0.1-SNAPSHOT'
+            from components.java
+        }
+    }
+    repositories {
+        mavenLocal()
+    }
 }
 
 tasks.named('test') {

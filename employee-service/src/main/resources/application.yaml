@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: employee-service
+    name: employeeservice
   # H2 Console Configuration (optional, but helpful for debugging)
   h2:
     console:

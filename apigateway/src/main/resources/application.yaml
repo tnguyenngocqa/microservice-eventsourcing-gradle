@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: api-gateway-service
+    name: apigateway
   redis:
     port: 6379
     host: localhost
@@ -14,14 +14,14 @@ spring:
           enabled: true
       routes:
         # book-service load balancing
-        - id: book-service
-          uri: lb://book-service
+        - id: bookservice
+          uri: lb://bookservice
           predicates:
             - Path=/api/v1/books/**
 
         # employee-service load balancing
-        - id: employee-service
-          uri: lb://employee-service
+        - id: employeeservice
+          uri: lb://employeeservice
           predicates:
             - Path=/api/v1/employees/**
           filters:
